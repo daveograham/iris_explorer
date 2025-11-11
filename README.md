@@ -21,8 +21,7 @@ rdir = '/example/path/myrasterfiles'
 RasterExplorer(rdir, xpad=8);
 
 
-
-Usage:
+# Usage
 Choose from the available wavelength windows from the dropdown.
 
 Drag the file slider to scan through the rasters in your directory
@@ -40,5 +39,5 @@ Clicking and dragging a portion of the spectrum will produce a raster image of m
 Choosing another raster window will reset the pixel and wavelength selection
 
 
-Comments:
+# Comments
 Enjoy! Please get in touch with suggestions and or bugs
