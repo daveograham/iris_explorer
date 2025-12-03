@@ -14,7 +14,7 @@ gui_scale - Integer to scale the overall GUI size (Default = 8)
 An example call looks like this:
 
 %matplotlib widget
-from iris_raster_explorer import RasterExplorer
+from explorer.iris_raster_explorer import RasterExplorer
 
 rdir = '/example/path/myrasterfiles'
 
@@ -38,6 +38,14 @@ Clicking and dragging a portion of the spectrum will produce a raster image of m
 
 Choosing another raster window will reset the pixel and wavelength selection
 
+# Fitting (experimental)
+Perform a quick fit by pressing Save start parameters
+
+Click the spectrum where you want the peaks
+
+Press test fit
+
+(will at a later date hold the fit it will update when the timeline is scrubbed)
 
 # Comments
 Enjoy! Please get in touch with suggestions and or bugs
