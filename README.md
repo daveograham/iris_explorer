@@ -14,6 +14,7 @@ gui_scale - Integer to scale the overall GUI size (Default = 8)
 An example call looks like this:
 
 %matplotlib widget
+
 from explorer.iris_raster_explorer import RasterExplorer
 
 rdir = '/example/path/myrasterfiles'
