@@ -34,6 +34,8 @@ class RasterExplorer:
     class Mode(Enum):
         PIXEL = "pixel"
         FIT = "fit"
+        HOLD = "hold"
+
     
     def __init__(self, filedir, iraster = 0, xpad = 1, gui_scale = 8):
         plt.close('all')
@@ -138,7 +140,18 @@ class RasterExplorer:
         )
         display.display(self.runfitButton)
         self.runfitButton.observe(self.run_fit, names='value')
-        
+
+        self.holdfitButton = widgets.ToggleButton(
+        value=False,
+        description='Hold fit',
+        disabled=False,
+        button_style='', # 'success', 'info', 'warning', 'danger' or ''
+        tooltip='Hold current fit parameters',
+        icon='' # (FontAwesome names without the `fa-` prefix)
+        )
+        display.display(self.holdfitButton)
+        self.holdfitButton.observe(self.hold_fit, names='value')
+
     def load_raster(self, rx):
         '''open raster file into memory'''
         self.filepath = self.filedir + self.filelist[rx]
@@ -208,6 +221,8 @@ class RasterExplorer:
         if event.inaxes is self.ax['A'] or event.inaxes is self.ax['B']:
             self.xy = pixloc
             self.plot_spectrum(self.rasterkey, self.xy)
+            if self.mode is self.Mode.HOLD:
+                self.fitter(self.rasterkey, self.xy)
             self.axclicked = event.inaxes
             if self.wavslice != -1:
                 self.plot_slice()
@@ -217,8 +232,7 @@ class RasterExplorer:
                 self.mode = self.Mode.PIXEL
                 self.paramstartButton.value = False
                 self.fitmarkers = []
-                self.pstart = []
-                
+                self.pstart = []                
 
         #IF A SPECTRUM CLICK ==========================
         if event.inaxes is self.ax['C']:
@@ -235,7 +249,7 @@ class RasterExplorer:
                 #self.plot_raster_window(self.rasterkey,'A', self.wavpix_down)
                 self.plot_spectrum(self.rasterkey, self.xy, click=1)
             
-            if self.mode == self.Mode.FIT:
+            if self.mode == self.Mode.FIT or self.mode == self.Mode.HOLD:
                 pcen = event.xdata
                 pint = event.ydata
 
@@ -315,6 +329,15 @@ class RasterExplorer:
             self.runfitButton.value = False
             return
         
+    def hold_fit(self, event):
+        if event['new'] == True:
+            self.mode = self.Mode.HOLD
+        if event['new'] == False:
+            self.mode = self.Mode.PIXEL
+            self.fitmarkers = []
+            self.plot_spectrum(self.rasterkey, self.xy)
+            return
+        
     def param_starter(self, event):
         if event['new'] == True:
             self.mode = self.Mode.FIT
@@ -349,6 +372,8 @@ class RasterExplorer:
             self.plot_spectrum(self.rasterkey, self.xy)
         if self.wavslice != -1:   #hasattr(self, 'wavslice'):
             self.plot_slice()
+        if self.mode is self.Mode.HOLD:
+            self.fitter(self.rasterkey, self.xy)
 
     def update_raster(self, event):
         #update raster intensity scale
