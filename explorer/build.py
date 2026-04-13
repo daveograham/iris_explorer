@@ -14,10 +14,11 @@ import numpy as np
 from enum import Enum
 
 from scipy.optimize import curve_fit
-from iris_tools.fit_tools import ngen_gauss
-from iris_tools.fit_tools import gaussian_bounds
 
-class RasterExplorer:
+# from .fit_tools import ngen_gauss
+# from .fit_tools import gaussian_bounds
+
+class UI:
     '''
     Class for selecting rasters and centroids for fitting. Setup mostly borrowed from Chris Osborne's Sunspot Selector
     and heavily inspired by the SSW routine iris_raster_browser
