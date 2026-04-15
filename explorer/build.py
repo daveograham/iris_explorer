@@ -38,7 +38,7 @@ class UI:
         HOLD = "hold"
 
     
-    def __init__(self, filedir, iraster = 0, xpad = 1, gui_scale = 8, memsave = False, sitandstare = False):
+    def __init__(self, filedir, iraster = 0, xpad = 0, gui_scale = 8, memsave = False, sitandstare = False):
         plt.close('all')
         self.filedir = filedir
         self.memsave = memsave
@@ -228,10 +228,16 @@ class UI:
                 self.wavslice = (lowx,highx)
                 clipped = np.mean(np.clip(raster[timelimits[0]:timelimits[1],:,lowx:highx].data,0,100000),axis=2)
         
-        if timelimits != -1:
+
+        if self.sitandstare == True:
             self.ax[subplot].imshow(clipped.T, origin='lower', aspect='auto', interpolation='none', vmin=np.max(clipped)*intset[0]*0.01, vmax=np.max(clipped)*intset[1]*0.01)
         else:
-            self.ax[subplot].imshow(clipped.T, origin='lower', aspect='auto', interpolation='none', vmin=np.max(clipped)*intset[0]*0.01, vmax=np.max(clipped)*intset[1]*0.01)
+            if self.stretch == 0:
+                self.ax[subplot].imshow(clipped.T, origin='lower', aspect='auto', interpolation='none', vmin=np.max(clipped)*intset[0]*0.01, vmax=np.max(clipped)*intset[1]*0.01)
+            if self.stretch >= 1:
+                self.ax[subplot].imshow(clipped.T, origin='lower', aspect=1/self.stretch, interpolation='none', vmin=np.max(clipped)*intset[0]*0.01, vmax=np.max(clipped)*intset[1]*0.01)
+
+
         
         self.ax[subplot].set_title(windowkey)
 
