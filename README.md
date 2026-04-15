@@ -15,11 +15,10 @@ An example call looks like this:
 
 %matplotlib widget
 
-from explorer.iris_raster_explorer import RasterExplorer
+from iris_explorer import explorer
 
 rdir = '/example/path/myrasterfiles'
-
-RasterExplorer(rdir, xpad=8);
+explorer.UI(rdir, xpad=8);
 
 
 # Usage
